@@ -1,0 +1,40 @@
+﻿@model IEnumerable<WebApplication2.Models.Parts>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Sku)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                    @Html.DisplayFor(modelItem => item.Sku)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.quantity)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.Location)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

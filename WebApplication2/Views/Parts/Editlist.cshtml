@@ -1,0 +1,87 @@
+﻿@model IEnumerable<WebApplication2.Models.Parts>
+
+@{
+    ViewData["Title"] = "Editlist";
+
+    var strRequired = 0;
+    var orderID = Context.Request.Query["orderid"].ToString();
+    try
+    {
+        strRequired = Int32.Parse(Context.Request.Query["required"].ToString());
+    }
+    catch (Exception e)
+    {
+
+    }
+
+
+    if (orderID == "" || orderID == null)
+    {
+        orderID = Context.Request.Form["orderid"];
+        var temp = Context.Request.Form["strRequired"];
+        strRequired = Int32.Parse(Context.Request.Form["strRequired"]);
+
+        var iOld = Int32.Parse(Context.Request.Form["OldCount"]);
+        var iNew = Int32.Parse(Context.Request.Form["quantity"]);
+        strRequired = strRequired - (iOld - iNew);
+    }
+
+}
+
+<h1>Index</h1>
+
+<p>
+    <a href='http://localhost:5002/orders'>Back</a>
+
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.quantity)
+            </th>
+            <th>
+                Required
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sku)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.quantity)
+                    <form asp-action='Editlist'>
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" name="Id" value="@item.Id" />
+                        <input type="hidden" name="Sku" value="@item.Sku" />
+                        <input type="hidden" name="Location" value="@item.Location" />
+                        <input type="hidden" name="OldCount" value="@item.quantity" />
+                        <input type="hidden" name="OrderID" value="@orderID" />
+                        <input type="hidden" name="strRequired" value="@strRequired" />
+                        <input name="quantity" asp-for="@item.quantity" placeholder="@item.quantity" />
+ 
+                        <div class="form-group">
+                            <input type="submit" value="Save" class="btn btn-primary" />
+                        </div>
+                    </form>
+
+
+            </td>
+                <td>@strRequired</td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sku)
+            </td>
+
+        </tr>
+}
+    </tbody>
+</table>

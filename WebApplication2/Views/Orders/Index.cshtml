@@ -1,0 +1,66 @@
+﻿@model IEnumerable<WebApplication2.Models.Orders>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Parts)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Required)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+           
+            var strRequired = 0;
+        }
+        @foreach (var item in Model) {
+            int loopCounter = 0;
+            <tr>
+                <td>
+                    <section>
+                        @foreach (var partid in item.Parts)
+                        {
+                            strRequired = item.Required[loopCounter];
+                            loopCounter++;
+                            <p><a href='http://localhost:5002/parts/editlist?sku=@partid&orderid=@item.OrderId&required=@strRequired'>@partid</a></p>
+                        }
+                </section>
+            </td>
+            <td>
+
+                    <section>
+                        @foreach (var requiredAmount in item.Required)
+                        {
+
+                            <p>@requiredAmount</p>
+                        }
+                    </section>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
